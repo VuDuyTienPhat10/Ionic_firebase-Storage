@@ -7,11 +7,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-item *ngFor="let p of products|async">
+      <ion-thumbnail slot="start" style="height:70px;width:70px;--border-radius: 50%;">
+        <img src="{{p.imgURL}}" width="100%">
+      </ion-thumbnail>
+      <ion-label>{{p.productName}}</ion-label>
+    </ion-item>
+  </ion-list>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+
 </ion-content>
