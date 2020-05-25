@@ -15,9 +15,11 @@ export class Tab3Page {
   ngOnInit(){
     
   }
-  tensp: string;
+  productName: string;
 
   downloadURL;
+  price:number;
+
 
   constructor(private storage: AngularFireStorage, private db: AngularFireDatabase,
     public loadingController: LoadingController,public alertController:AlertController) { }
@@ -30,42 +32,45 @@ export class Tab3Page {
   phantram;
   async add() {
     const loading = await this.loadingController.create({
-      message: 'ĐANG XỬ LÍ...',
+      spinner:'crescent'
     });
     await loading.present();
-    this.db.list('list_sp').push({ productName: this.tensp }).then(snapshot => {
+    this.db.list('list_sp').push({ productName: this.productName,price: this.price,date:Date.now()}).then(snapshot => {
       if (this.selectedFile) {
         const filePath = `hinhanh/${snapshot.key}`;
 
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.selectedFile[0]);
      
-        // task.percentageChanges().subscribe(data=>{
-        //   this.phantram=data;
-        //   console.log(this.phantram)
-        // })
-        task.snapshotChanges().pipe(
-          finalize(() => {
+        task.percentageChanges().subscribe(data=>{
+          this.phantram=data;
+          if(this.phantram==100){
+            this.loadingController.dismiss().then(async()=>{
+              const alert = await this.alertController.create({
+                header: 'Đã thêm',  
+                buttons: ['OK']
+              });
+              await alert.present();
+            });
             fileRef.getDownloadURL().subscribe(url => {
               this.downloadURL=url;
               this.db.list('list_sp').update(snapshot.key, { imgURL: url }).then(() => {
-                console.log('xong');
-                this.loadingController.dismiss().then(async()=>{
-                  const alert = await this.alertController.create({
-                    header: 'Đã thêm',
-                
-                    
-                    buttons: ['OK']
-                  });
-              
-                  await alert.present();
-                });
-                
+                console.log('da update vao db dia chỉ hình ảnh xong');               
               })
-            })
+            })               
+          }
+          console.log(this.phantram);
+          
+          
+        })
+        // task.snapshotChanges().pipe(
+        //   finalize(() => {
+        //     console.log('finalize')
+         
 
-          })
-        ).subscribe()
+        //   })
+        // ).subscribe(data=>console.log(`data nè`,data));
+        
       }
     })
   }

@@ -1,22 +1,36 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 2
+    <ion-title style="color:#6c5ce7">
+      ADMIN
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item>
-    <ion-label position="stacked">Nhập tên sản phẩm</ion-label>
-    <ion-input [(ngModel)]="tensp"></ion-input>
-  </ion-item>
 
-  <ion-item>
-    <input type="file" (change)="getFile($event)">
-  </ion-item>
+    <div class="formnhapthongtin">
+      <ion-item>
+        <ion-label position="stacked"><ion-icon name="create-outline"></ion-icon> Nhập tên sản phẩm</ion-label>
+        <ion-input [(ngModel)]="productName" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked"><ion-icon name="create-outline"></ion-icon> Chọn hình cho sản phẩm</ion-label>
+        <input type="file" (change)="getFile($event)">
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked"><ion-icon name="create-outline"></ion-icon> Nhập giá sản phẩm</ion-label>
+        <ion-input [(ngModel)]="price" type="number"></ion-input>
+      </ion-item>
+    </div>
+ 
+
 
   <a *ngIf="downloadURL" [href]="downloadURL" class="alert alert-danger">LINK DOWNLOAD HÌNH ẢNH</a>
 
   <ion-button color="tertiary" expand="full" (click)="add()">UPLOAD HÌNH ẢNH VÀO STORAGE</ion-button>
+
+
+  <a *ngIf="downloadURL" href="{{downloadURL}}" style="color:red">{{downloadURL}}</a>
 </ion-content>

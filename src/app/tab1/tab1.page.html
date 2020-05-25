@@ -7,14 +7,60 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item *ngFor="let p of products|async">
-      <ion-thumbnail slot="start" style="height:70px;width:70px;--border-radius: 50%;">
-        <img src="{{p.imgURL}}" width="100%">
-      </ion-thumbnail>
-      <ion-label>{{p.productName}}</ion-label>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="!products" style="margin-top:200px;">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </div>
+
+
+  <div *ngIf="products">
+    <div class="sapxep">
+      <ion-button (click)="SapXepTheoGia('desc')">
+        Giá <ion-icon name="arrow-down-outline"></ion-icon>
+      
+      </ion-button>
+      <ion-button (click)="SapXepTheoGia('asc')">
+        Giá <ion-icon name="arrow-up-outline"></ion-icon>
+      </ion-button>
+    </div>
+    
+    <!-- lặp các card -->
+    <ion-card *ngFor="let p of products">
+      <!-- card header -->
+      <ion-card-header>
+        <ion-card-title style="color:#6c5ce7;font-weight: bold;">
+          <ion-icon name="star" style="color:#fdcb6e"></ion-icon> {{p.productName}}
+        </ion-card-title>
+      </ion-card-header>
+      <!-- card content -->
+      <ion-card-content>
+        <ion-row>
+          <!-- col-7 -->
+          <ion-col size="7">
+            <ion-item>
+              <ion-thumbnail slot="start" style="--border-radius: 5%;">
+                <img src="{{p.imgURL}}">
+              </ion-thumbnail>
+              <ion-label style="font-weight: bold;color:#d63031">
+                {{p.price|currency:'USD'}}
+              </ion-label>
+            </ion-item>
+          </ion-col>
+
+          <!-- col-5 -->
+          <ion-col size="5">
+            <ion-button color="tertiary" (click)="addToCart(p)" size="small">
+              Thêm vào <ion-icon name="cart"></ion-icon>
+            </ion-button>
+            <!-- nút xóa -->
+            <ion-button color="danger" size="small" (click)="onDelete(p.key)"><ion-icon name="trash"></ion-icon></ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+
+
+  </div>
+
 
 
 </ion-content>
