@@ -1,45 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>
+            <ion-icon name="person-circle-outline"></ion-icon> DASHBOARD ADMIN
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="ion-padding">
-    <div class="formnhapthongtin">
-      <ion-item>
-        <ion-label position="stacked">
-          <ion-icon name="create-outline"></ion-icon> Nhập tên sản phẩm
-        </ion-label>
-        <ion-input [(ngModel)]="productName" type="text"></ion-input>
-      </ion-item>
+    <div class="ion-padding">
+        <div class="formnhapthongtin">
+            <ion-item>
+                <ion-label position="stacked">
+                    <ion-icon name="create-outline"></ion-icon> Nhập tên sản phẩm
+                </ion-label>
+                <ion-input [(ngModel)]="productName" type="text"></ion-input>
+            </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">
-          <ion-icon name="create-outline"></ion-icon> Chọn hình cho sản phẩm
-        </ion-label>
-        <input type="file" (change)="getFile($event)">
-      </ion-item>
+            <ion-item>
+                <ion-label position="stacked">
+                    <ion-icon name="create-outline"></ion-icon> Chọn hình cho sản phẩm
+                </ion-label>
+                <input type="file" (change)="getFile($event)">
+            </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">
-          <ion-icon name="create-outline"></ion-icon> Nhập giá sản phẩm
-        </ion-label>
-        <ion-input [(ngModel)]="price" type="number"></ion-input>
-      </ion-item>
+            <ion-item>
+                <ion-label position="stacked">
+                    <ion-icon name="create-outline"></ion-icon> Nhập giá sản phẩm
+                </ion-label>
+                <ion-input [(ngModel)]="price" type="number"></ion-input>
+            </ion-item>
+        </div>
+
+
+
+        <div class="progress" style="margin: 15px" [hidden]="completed">
+            <div class="progress-bar progress-bar-striped 
+      progress-bar-animated" role="progressbar" aria-valuenow="{{phantram}}" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="teo"></div>
+            <h4 class="alert alert-success">{{phantram}}</h4>
+        </div>
+        <ion-button color="tertiary" expand="full" (click)="add()">UPLOAD SẢN PHẨM(lưu vào db và storage)</ion-button>
     </div>
-
-
-
-    <div class="progress" style="margin: 15px" [hidden]="completed">
-      <div class="progress-bar progress-bar-striped 
-      progress-bar-animated" role="progressbar" aria-valuenow="{{phantram}}" aria-valuemin="0"
-        aria-valuemax="100" style="width: 0%" id="teo"></div>
-      <h4 class="alert alert-success">{{phantram}}</h4>
-    </div>
-    <ion-button color="tertiary" expand="full" (click)="add()">UPLOAD HÌNH ẢNH VÀO STORAGE</ion-button>
-  </div>
 
 </ion-content>

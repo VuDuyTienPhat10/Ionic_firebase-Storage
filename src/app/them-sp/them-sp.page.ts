@@ -1,32 +1,37 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+import { AngularFireStorage } from "@angular/fire/storage";
+import { AngularFireDatabase } from "@angular/fire/database";
 import { AlertController } from '@ionic/angular';
+
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: "app-them-sp",
+  templateUrl: "./them-sp.page.html",
+  styleUrls: ["./them-sp.page.scss"],
 })
-export class Tab2Page {
-  downloadURL:string;
-  productName:string;
-  price:number;
-  
-  constructor(private storage: AngularFireStorage, private db: AngularFireDatabase,public alertController: AlertController) { }
-  selectedFile;
-  getFile($event) {
-    this.selectedFile = $event.target.files;
-    console.log(this.selectedFile);
+export class ThemSPPage implements OnInit {
+  productName: string;
+  price: number;
+  phantram: number;
+  downloadURL: string;
+  constructor(
+    private storage: AngularFireStorage,
+    private db: AngularFireDatabase,
+    private alertController:AlertController
+  ) {}
+  selectedFile; //file đc chọn;
+  completed;
+  ngOnInit() {}
+  getFile(file) {
+    this.selectedFile = file;
     return this.selectedFile
   }
-  phantram:number;
-  completed:boolean;
   add() {
-    this.reset_progress_bar();
+ 
 
-    this.db.list('list_sp').push({ productName: this.productName,price:this.price,created_at:Date.now()}).then(snapshot => {
+    this.db.list('danhsach_sp')
+    .push({ productName: this.productName,price:this.price,created_at:Date.now()})
+    .then(snapshot => {
+      //nếu chưa chọn file thì k cho upload:
       if (this.selectedFile) {
         //đường dẫn hình ảnh trên storage:
         const filePath = `hinhanh/${snapshot.key}`;
@@ -40,12 +45,11 @@ export class Tab2Page {
         //theo dõi số phần trăm đã upload :
         task.percentageChanges().subscribe(data=>{
           this.phantram=data; console.log(this.phantram);
-          // $('#teo').css({width:this.phantram+'%'})
          
           if(this.phantram==100){
             fileRef.getDownloadURL().subscribe(url => {
               this.downloadURL=url;
-              this.db.list('list_sp').update(snapshot.key, { imgURL: url }).then(async() => {
+              this.db.list('danhsach_sp').update(snapshot.key, { imgURL: url }).then(async() => {
                 //ẩn thanh upload đi
                 this.completed=true;
                 //hiện thông báo đã xong
@@ -70,11 +74,4 @@ export class Tab2Page {
       }
     })
   }
-
-  reset_progress_bar(){
-    this.completed=false;
-    $('#teo').css({width:0+"%"})
-  }
-
-
 }
